@@ -39,7 +39,7 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (user) navigate("/dashboard", { replace: true });
+    if (user) navigate("/app", { replace: true });
   }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,7 +65,7 @@ const Auth = () => {
           return;
         }
         toast.success("Welcome to Swap Agent!");
-        navigate("/dashboard", { replace: true });
+        navigate("/app", { replace: true });
       } else {
         const parsed = loginSchema.safeParse({ email, password });
         if (!parsed.success) {
@@ -81,7 +81,7 @@ const Auth = () => {
           return;
         }
         toast.success("Welcome back");
-        navigate("/dashboard", { replace: true });
+        navigate("/app", { replace: true });
       }
     } finally {
       setLoading(false);
