@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Rocket, TrendingUp, MessageSquare, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AppShell } from "@/components/AppShell";
+import { Pricing } from "@/components/Pricing";
 
 const features = [
   { icon: Rocket, title: "Pitch in minutes", desc: "Founders craft a tight pitch — name, idea, traction, ask. Clean, structured, and fast." },
@@ -89,6 +90,9 @@ const Landing = () => {
           ))}
         </div>
       </section>
+
+      {/* Pricing */}
+      <Pricing />
 
       {/* CTA */}
       <section className="container pb-24">
