@@ -80,7 +80,13 @@ const StartupDashboard = () => {
       } else {
         const { data, error } = await supabase
           .from("startups")
-          .insert([{ ...parsed.data, user_id: user.id }])
+          .insert([{
+            user_id: user.id,
+            name: parsed.data.name,
+            idea: parsed.data.idea,
+            description: parsed.data.description,
+            funding_required: parsed.data.funding_required,
+          }])
           .select()
           .single();
         if (error) throw error;
