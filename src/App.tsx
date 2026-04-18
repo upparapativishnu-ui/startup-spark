@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { AdminRoute } from "@/components/AdminRoute";
 import Index from "./pages/Index.tsx";
 import Auth from "./pages/Auth.tsx";
 import StartupDashboard from "./pages/StartupDashboard.tsx";
@@ -12,6 +13,10 @@ import Discover from "./pages/Discover.tsx";
 import Messages from "./pages/Messages.tsx";
 import RoleGate from "./pages/RoleGate.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
+import AdminUsers from "./pages/admin/AdminUsers.tsx";
+import AdminLogs from "./pages/admin/AdminLogs.tsx";
+import AdminContent from "./pages/admin/AdminContent.tsx";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +34,10 @@ const App = () => (
             <Route path="/dashboard" element={<ProtectedRoute><StartupDashboard /></ProtectedRoute>} />
             <Route path="/discover" element={<ProtectedRoute><Discover /></ProtectedRoute>} />
             <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+            <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+            <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
+            <Route path="/admin/logs" element={<AdminRoute><AdminLogs /></AdminRoute>} />
+            <Route path="/admin/content" element={<AdminRoute><AdminContent /></AdminRoute>} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

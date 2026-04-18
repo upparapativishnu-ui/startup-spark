@@ -1,11 +1,13 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "@/contexts/AuthContext";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
-import { LogOut, Sparkles } from "lucide-react";
+import { LogOut, Sparkles, Shield } from "lucide-react";
 
 export const Navbar = () => {
   const { user, profile, signOut } = useAuth();
+  const { isModerator } = useIsAdmin();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -65,6 +67,14 @@ export const Navbar = () => {
           <div className="flex items-center gap-3">
             {user ? (
               <>
+                {isModerator && (
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to="/admin">
+                      <Shield className="h-4 w-4 mr-2 text-gold" />
+                      Admin
+                    </Link>
+                  </Button>
+                )}
                 <span className="hidden sm:inline text-sm text-muted-foreground">
                   {profile?.display_name}
                 </span>
