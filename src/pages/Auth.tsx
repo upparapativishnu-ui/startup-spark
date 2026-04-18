@@ -52,7 +52,7 @@ const Auth = () => {
           toast.error(parsed.error.errors[0].message);
           return;
         }
-        const { error } = await supabase.auth.signUp({
+        const { data: signUpData, error } = await supabase.auth.signUp({
           email: parsed.data.email,
           password: parsed.data.password,
           options: {
@@ -63,6 +63,12 @@ const Auth = () => {
         if (error) {
           toast.error(error.message);
           return;
+        }
+        // Best-effort: capture real IP / UA via edge function
+        if (signUpData.user?.id) {
+          supabase.functions
+            .invoke("capture-signup-ip", { body: { user_id: signUpData.user.id } })
+            .catch(() => {});
         }
         toast.success("Welcome to Swap Agent!");
         navigate("/app", { replace: true });

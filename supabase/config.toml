@@ -1,1 +1,4 @@
 project_id = "oowenmfszaofumcmcono"
+
+[functions.capture-signup-ip]
+verify_jwt = false
