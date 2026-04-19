@@ -11,6 +11,7 @@ export const Navbar = () => {
   const { isModerator } = useIsAdmin();
   const { get } = useSiteContent();
   const siteName = get("site_name", "Swap Agent");
+  const logoUrl = get("site_logo_url", "");
   const [first, ...rest] = siteName.split(" ");
   const tail = rest.join(" ");
   const navigate = useNavigate();
@@ -42,10 +43,14 @@ export const Navbar = () => {
       <div className="glass border-b border-border/40">
         <div className="container flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="relative">
-              <Sparkles className="h-6 w-6 text-primary transition-transform duration-500 group-hover:rotate-180" />
-              <div className="absolute inset-0 blur-md bg-primary/40 -z-10" />
-            </div>
+            {logoUrl ? (
+              <img src={logoUrl} alt={siteName} className="h-8 w-8 object-contain" />
+            ) : (
+              <div className="relative">
+                <Sparkles className="h-6 w-6 text-primary transition-transform duration-500 group-hover:rotate-180" />
+                <div className="absolute inset-0 blur-md bg-primary/40 -z-10" />
+              </div>
+            )}
             <span className="font-display text-xl font-bold tracking-tight">
               {tail ? <>{first} <span className="text-gold">{tail}</span></> : <span className="text-gold">{first}</span>}
             </span>
