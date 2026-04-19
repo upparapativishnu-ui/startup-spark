@@ -7,8 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { Plus, Save, Trash2 } from "lucide-react";
+import { Plus, Save, Trash2, Upload, Image as ImageIcon } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+
+const LOGO_KEY = "site_logo_url";
 
 interface Content {
   id: string;
