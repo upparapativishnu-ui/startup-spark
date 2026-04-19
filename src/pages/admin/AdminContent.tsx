@@ -127,6 +127,54 @@ const AdminContent = () => {
         <Card>
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
+              <ImageIcon className="h-4 w-4" /> Brand logo
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="h-16 w-16 rounded-xl border border-border/60 bg-muted/30 flex items-center justify-center overflow-hidden">
+                {logoUrl ? (
+                  <img src={logoUrl} alt="Brand logo" className="h-full w-full object-contain" />
+                ) : (
+                  <ImageIcon className="h-6 w-6 text-muted-foreground" />
+                )}
+              </div>
+              <div className="flex-1 space-y-2">
+                <Label htmlFor="logo-upload" className="text-xs text-muted-foreground">
+                  PNG, JPG, SVG or WebP — under 2MB. Replaces the navbar icon.
+                </Label>
+                <div className="flex flex-wrap gap-2">
+                  <Button asChild size="sm" disabled={uploading}>
+                    <label htmlFor="logo-upload" className="cursor-pointer">
+                      <Upload className="h-3.5 w-3.5 mr-1" />
+                      {uploading ? "Uploading…" : logoUrl ? "Replace logo" : "Upload logo"}
+                    </label>
+                  </Button>
+                  <input
+                    id="logo-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) handleLogoUpload(f);
+                      e.target.value = "";
+                    }}
+                  />
+                  {logoUrl && (
+                    <Button size="sm" variant="ghost" className="text-destructive" onClick={removeLogo}>
+                      <Trash2 className="h-3.5 w-3.5 mr-1" /> Remove
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
               <Plus className="h-4 w-4" /> Add new content key
             </CardTitle>
           </CardHeader>
