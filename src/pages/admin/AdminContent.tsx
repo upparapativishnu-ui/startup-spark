@@ -24,10 +24,64 @@ const AdminContent = () => {
   const [items, setItems] = useState<Content[]>([]);
   const [newKey, setNewKey] = useState("");
   const [newValue, setNewValue] = useState("");
+  const [logoUrl, setLogoUrl] = useState<string>("");
+  const [uploading, setUploading] = useState(false);
 
   const load = async () => {
     const { data } = await supabase.from("site_content").select("*").order("key");
-    setItems((data as Content[]) ?? []);
+    const all = (data as Content[]) ?? [];
+    const logo = all.find((i) => i.key === LOGO_KEY);
+    setLogoUrl(logo?.value ?? "");
+    setItems(all.filter((i) => i.key !== LOGO_KEY));
+  };
+
+  const upsertLogoUrl = async (url: string) => {
+    const { data: existing } = await supabase
+      .from("site_content")
+      .select("id")
+      .eq("key", LOGO_KEY)
+      .maybeSingle();
+    if (existing) {
+      await supabase
+        .from("site_content")
+        .update({ value: url, updated_by: user?.id })
+        .eq("id", existing.id);
+    } else {
+      await supabase.from("site_content").insert({
+        key: LOGO_KEY,
+        value: url,
+        description: "Brand logo shown in navbar",
+        updated_by: user?.id,
+      });
+    }
+  };
+
+  const handleLogoUpload = async (file: File) => {
+    if (!file.type.startsWith("image/")) return toast.error("Please upload an image file");
+    if (file.size > 2 * 1024 * 1024) return toast.error("Logo must be under 2MB");
+    setUploading(true);
+    try {
+      const ext = file.name.split(".").pop() || "png";
+      const path = `logo-${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage
+        .from("branding")
+        .upload(path, file, { cacheControl: "3600", upsert: false });
+      if (upErr) throw upErr;
+      const { data: pub } = supabase.storage.from("branding").getPublicUrl(path);
+      await upsertLogoUrl(pub.publicUrl);
+      setLogoUrl(pub.publicUrl);
+      toast.success("Logo updated");
+    } catch (e: any) {
+      toast.error(e.message ?? "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const removeLogo = async () => {
+    await upsertLogoUrl("");
+    setLogoUrl("");
+    toast.success("Logo removed");
   };
 
   useEffect(() => {
