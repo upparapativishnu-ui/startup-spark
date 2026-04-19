@@ -17,6 +17,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
 import AdminUsers from "./pages/admin/AdminUsers.tsx";
 import AdminLogs from "./pages/admin/AdminLogs.tsx";
 import AdminContent from "./pages/admin/AdminContent.tsx";
+import { SeoManager } from "./components/SeoManager.tsx";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          <SeoManager />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />

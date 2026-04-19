@@ -4,10 +4,15 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { Button } from "@/components/ui/button";
 import { LogOut, Sparkles, Shield } from "lucide-react";
+import { useSiteContent } from "@/hooks/useSiteContent";
 
 export const Navbar = () => {
   const { user, profile, signOut } = useAuth();
   const { isModerator } = useIsAdmin();
+  const { get } = useSiteContent();
+  const siteName = get("site_name", "Swap Agent");
+  const [first, ...rest] = siteName.split(" ");
+  const tail = rest.join(" ");
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -42,7 +47,7 @@ export const Navbar = () => {
               <div className="absolute inset-0 blur-md bg-primary/40 -z-10" />
             </div>
             <span className="font-display text-xl font-bold tracking-tight">
-              Swap <span className="text-gold">Agent</span>
+              {tail ? <>{first} <span className="text-gold">{tail}</span></> : <span className="text-gold">{first}</span>}
             </span>
           </Link>
 
