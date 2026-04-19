@@ -26,7 +26,7 @@ export const useSiteContent = () => {
     listeners.add(listener);
 
     const channel = supabase
-      .channel("site_content_changes")
+      .channel(`site_content_changes_${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "site_content" },
