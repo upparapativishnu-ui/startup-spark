@@ -200,6 +200,15 @@ export const Pricing = () => {
       >
         All prices in INR. Secure checkout • Cancel anytime • Refunds within 7 days.
       </motion.p>
+
+      {selectedPlan && (
+        <UpiPaymentDialog
+          open={!!selectedPlan}
+          onOpenChange={(open) => !open && setSelectedPlan(null)}
+          planName={selectedPlan.name}
+          amount={selectedPlan.amount}
+        />
+      )}
     </section>
   );
 };
