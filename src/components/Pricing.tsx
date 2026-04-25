@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Sparkles, Crown, Rocket } from "lucide-react";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { UpiPaymentDialog } from "@/components/UpiPaymentDialog";
 
 type Plan = {
   id: "trial" | "pro" | "premium";
   name: string;
   price: string;
+  amount: number;
   period: string;
   tagline: string;
   icon: typeof Rocket;
