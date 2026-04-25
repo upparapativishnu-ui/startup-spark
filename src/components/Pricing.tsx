@@ -1,12 +1,14 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Sparkles, Crown, Rocket } from "lucide-react";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { UpiPaymentDialog } from "@/components/UpiPaymentDialog";
 
 type Plan = {
   id: "trial" | "pro" | "premium";
   name: string;
   price: string;
+  amount: number;
   period: string;
   tagline: string;
   icon: typeof Rocket;
@@ -19,6 +21,7 @@ const plans: Plan[] = [
     id: "trial",
     name: "Trial",
     price: "₹50",
+    amount: 50,
     period: "for 1 week",
     tagline: "Test the waters.",
     icon: Rocket,
@@ -33,6 +36,7 @@ const plans: Plan[] = [
     id: "pro",
     name: "Pro",
     price: "₹499",
+    amount: 499,
     period: "per year",
     tagline: "For serious operators.",
     icon: Sparkles,
@@ -48,6 +52,7 @@ const plans: Plan[] = [
     id: "premium",
     name: "Premium",
     price: "₹999",
+    amount: 999,
     period: "per year",
     tagline: "The full deal room.",
     icon: Crown,
@@ -64,10 +69,10 @@ const plans: Plan[] = [
 ];
 
 export const Pricing = () => {
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+
   const handleSelect = (plan: Plan) => {
-    toast("Payments coming soon", {
-      description: `${plan.name} plan reserved. We'll notify you the moment checkout opens.`,
-    });
+    setSelectedPlan(plan);
   };
 
   return (
@@ -195,6 +200,15 @@ export const Pricing = () => {
       >
         All prices in INR. Secure checkout • Cancel anytime • Refunds within 7 days.
       </motion.p>
+
+      {selectedPlan && (
+        <UpiPaymentDialog
+          open={!!selectedPlan}
+          onOpenChange={(open) => !open && setSelectedPlan(null)}
+          planName={selectedPlan.name}
+          amount={selectedPlan.amount}
+        />
+      )}
     </section>
   );
 };
