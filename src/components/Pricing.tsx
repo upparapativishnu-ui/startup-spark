@@ -21,6 +21,7 @@ const plans: Plan[] = [
     id: "trial",
     name: "Trial",
     price: "₹50",
+    amount: 50,
     period: "for 1 week",
     tagline: "Test the waters.",
     icon: Rocket,
@@ -35,6 +36,7 @@ const plans: Plan[] = [
     id: "pro",
     name: "Pro",
     price: "₹499",
+    amount: 499,
     period: "per year",
     tagline: "For serious operators.",
     icon: Sparkles,
@@ -50,6 +52,7 @@ const plans: Plan[] = [
     id: "premium",
     name: "Premium",
     price: "₹999",
+    amount: 999,
     period: "per year",
     tagline: "The full deal room.",
     icon: Crown,
@@ -66,10 +69,10 @@ const plans: Plan[] = [
 ];
 
 export const Pricing = () => {
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+
   const handleSelect = (plan: Plan) => {
-    toast("Payments coming soon", {
-      description: `${plan.name} plan reserved. We'll notify you the moment checkout opens.`,
-    });
+    setSelectedPlan(plan);
   };
 
   return (
